@@ -1,11 +1,40 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list-item>
+        <v-list-item-content>
+          <!-- v-list-item-subtitleを削除、タイトルをMenuに変更 -->
+          <v-list-item-title class="text-h6"> Menu </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense nav>
+        <!-- :toを追加 -->
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Application</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+      <!-- 追加 -->
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <style>
@@ -30,3 +59,20 @@
   color: #42b983;
 }
 </style>
+
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({
+  name: "App",
+
+  data: () => ({
+    drawer: null,
+
+    items: [
+      { title: "Todo", icon: "mdi-format-list-checks", to: "/" },
+      { title: "About", icon: "mdi-help-box", to: "/about" },
+    ],
+  }),
+});
+</script>
